@@ -1111,6 +1111,14 @@ defmodule Req.Steps do
     end
   end
 
+  def put_stub(request) do
+    if stub = request.options[:stub] do
+      Req.update(request, plug: {Req.Stub.Plug, stub}, adapter: &run_plug/1)
+    else
+      request
+    end
+  end
+
   defmodule CollectableWithChecksum do
     @moduledoc false
 

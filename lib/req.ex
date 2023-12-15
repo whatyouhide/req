@@ -365,6 +365,7 @@ defmodule Req do
           :pool_timeout,
           :unix_socket,
           :redact_auth,
+          :stub,
 
           # TODO: Remove on Req 1.0
           :output,
@@ -384,6 +385,7 @@ defmodule Req do
       put_range: &Req.Steps.put_range/1,
       cache: &Req.Steps.cache/1,
       put_plug: &Req.Steps.put_plug/1,
+      put_stub: &Req.Steps.put_stub/1,
       compress_body: &Req.Steps.compress_body/1,
       checksum: &Req.Steps.checksum/1
     )
@@ -1180,4 +1182,12 @@ defmodule Req do
   def __ensure_header_downcase__(name) do
     String.downcase(name, :ascii)
   end
+
+  defdelegate defstub(stub), to: Req.Stub
+
+  defdelegate defstub_default(stub, plug), to: Req.Stub
+
+  defdelegate stub(stub, plug), to: Req.Stub
+
+  defdelegate stub_default(stub), to: Req.Stub
 end

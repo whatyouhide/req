@@ -16,6 +16,7 @@ defmodule Req.MixProject do
       aliases: [
         "test.all": ["test --include integration"]
       ],
+      elixirc_paths: elixirc_paths(Mix.env()),
       preferred_cli_env: [
         "test.all": :test,
         docs: :docs,
@@ -33,6 +34,9 @@ defmodule Req.MixProject do
       ]
     ]
   end
+
+  defp elixirc_paths(:test), do: ["lib", "test/support"]
+  defp elixirc_paths(_), do: ["lib"]
 
   def application do
     [
@@ -59,6 +63,7 @@ defmodule Req.MixProject do
       {:jason, "~> 1.0"},
       {:nimble_csv, "~> 1.0", optional: true},
       {:plug, "~> 1.0", [optional: true] ++ plug_opts()},
+      {:mox, "~> 1.0", optional: true},
       {:brotli, "~> 0.3.1", optional: true},
       {:ezstd, "~> 1.0", optional: true},
       {:bypass, "~> 2.1", only: :test},
