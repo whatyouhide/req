@@ -2,7 +2,7 @@ defmodule Stub1Test do
   use ExUnit.Case, async: true
 
   test "stub" do
-    Req.stub_default(Hello.Stub)
+    Req.Stub.stub_default(Hello.Stub)
 
     assert Hello.hello().body == "hello"
 

@@ -1182,12 +1182,4 @@ defmodule Req do
   def __ensure_header_downcase__(name) do
     String.downcase(name, :ascii)
   end
-
-  defdelegate defstub(stub), to: Req.Stub
-
-  defdelegate defstub_default(stub, plug), to: Req.Stub
-
-  defdelegate stub(stub, plug), to: Req.Stub
-
-  defdelegate stub_default(stub), to: Req.Stub
 end

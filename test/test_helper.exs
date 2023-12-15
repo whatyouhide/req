@@ -22,7 +22,7 @@ end
 
 Application.put_env(:hello, :stub, true)
 
-Req.defstub_default(Hello.Stub, fn conn ->
+Req.Stub.defstub_default(Hello.Stub, fn conn ->
   Plug.Conn.send_resp(conn, 200, "hello")
 end)
 
