@@ -21,10 +21,15 @@ defmodule TestSocket do
 end
 
 Application.put_env(:hello, :stub, true)
+Req.Stub.defstub(Hello.Stub)
 
-Req.Stub.defstub_default(Hello.Stub, fn conn ->
-  Plug.Conn.send_resp(conn, 200, "hello")
-end)
+defmodule Hello.DefaultStub do
+  def init(options), do: options
+
+  def call(conn, _options) do
+    Plug.Conn.send_resp(conn, 200, "hello")
+  end
+end
 
 ExUnit.configure(exclude: :integration)
 ExUnit.start()

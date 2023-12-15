@@ -15,25 +15,13 @@ defmodule Req.Stub do
     end
   end
 
-  def defstub_default(stub, plug) do
-    defstub(stub)
-    Req.Stub.Server.put_default(stub, plug)
-  end
-
-  def stub_default(stub) do
-    case Req.Stub.Server.fetch_default(stub) do
-      {:ok, plug} ->
-        Mox.stub(stub, :call, plug)
-
-      :error ->
-        raise "missing default for stub #{inspect(stub)}"
-    end
-
+  def stub(stub, plug) when is_function(plug, 1) do
+    Mox.stub(stub, :call, plug)
     :ok
   end
 
-  def stub(stub, plug) do
-    Mox.stub(stub, :call, plug)
+  def stub(stub, plug) when is_atom(plug) do
+    Mox.stub(stub, :call, &plug.call(&1, []))
     :ok
   end
 end
@@ -56,22 +44,4 @@ defmodule Req.Stub.API do
   @moduledoc false
 
   @callback call(Plug.Conn.t()) :: Plug.Conn.t()
-end
-
-defmodule Req.Stub.Server do
-  @moduledoc false
-
-  use Agent
-
-  def start_link(_) do
-    Agent.start_link(fn -> %{} end, name: __MODULE__)
-  end
-
-  def put_default(stub, plug) do
-    Agent.update(__MODULE__, &Map.put(&1, stub, plug))
-  end
-
-  def fetch_default(stub) do
-    Agent.get(__MODULE__, &Map.fetch(&1, stub))
-  end
 end

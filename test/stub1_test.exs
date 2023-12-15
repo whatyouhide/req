@@ -1,9 +1,11 @@
 defmodule Stub1Test do
   use ExUnit.Case, async: true
 
-  test "stub" do
-    Req.Stub.stub_default(Hello.Stub)
+  setup do
+    Hello.stub(Hello.DefaultStub)
+  end
 
+  test "stub" do
     assert Hello.hello().body == "hello"
 
     Task.async(fn ->

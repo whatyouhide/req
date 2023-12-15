@@ -2,7 +2,7 @@ defmodule Stub2Test do
   use ExUnit.Case, async: true
 
   test "stub" do
-    Req.Stub.stub(Hello.Stub, fn conn ->
+    Hello.stub(fn conn ->
       Plug.Conn.send_resp(conn, 200, "hello 2")
     end)
 

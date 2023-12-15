@@ -1,9 +1,8 @@
 defmodule Stub3Test do
   use ExUnit.Case, async: true
-  import Req.Stub
 
   test "stub" do
-    stub(Hello.Stub, fn conn ->
+    Hello.stub(fn conn ->
       Plug.Conn.send_resp(conn, 200, "hello 3")
     end)
 
